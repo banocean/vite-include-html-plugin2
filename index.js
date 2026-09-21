@@ -94,16 +94,21 @@ export default function includeHtml() {
   return {
     name: "vite-include-html",
 
+    enforce: "pre",
+
     configResolved(config) {
       viteRoot = config.root || process.cwd();
     },
 
-    async transformIndexHtml(html, ctx) {
-      const baseDir = ctx.filename ? path.dirname(ctx.filename) : viteRoot;
-      const rootFile = ctx.filename ? path.resolve(ctx.filename) : null;
-      const initialSeen = new Set(rootFile ? [rootFile] : []);
+    transformIndexHtml: {
+      order: "pre",
+      async handler(html, ctx) {
+        const baseDir = ctx.filename ? path.dirname(ctx.filename) : viteRoot;
+        const rootFile = ctx.filename ? path.resolve(ctx.filename) : null;
+        const initialSeen = new Set(rootFile ? [rootFile] : []);
 
-      return processHtmlRecursive(html, baseDir, ctx, viteRoot, initialSeen);
+        return processHtmlRecursive(html, baseDir, ctx, viteRoot, initialSeen);
+      },
     },
 
     handleHotUpdate({ file, server }) {
