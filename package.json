@@ -1,6 +1,6 @@
 {
   "name": "vite-include-html-plugin2",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vite plugin to include HTML files using the include tag.",
   "exports": {
     ".": "./index.js"
